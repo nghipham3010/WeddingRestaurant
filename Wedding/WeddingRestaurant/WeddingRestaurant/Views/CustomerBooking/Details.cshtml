@@ -1,0 +1,70 @@
+﻿@model WeddingRestaurant.Models.DatBan
+@{
+    ViewData["Title"] = "Booking Details";
+}
+
+<h2 class="text-center text-primary mb-4">Booking Details</h2>
+<hr />
+
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow-sm">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">Booking #@Model.Id</h5>
+            </div>
+            <div class="card-body">
+                <dl class="row">
+                    <dt class="col-sm-4">Full Name:</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.TenKhachHang)</dd>
+
+                    <dt class="col-sm-4">Phone Number:</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.SoDienThoai)</dd>
+
+                    <dt class="col-sm-4">Booking Date & Time:</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.ThoiGianNhanBan)</dd>
+
+                    <dt class="col-sm-4">Number of Guests:</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.SoLuongKhach)</dd>
+
+                    <dt class="col-sm-4">Estimated Completion Time:</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.ThoiGianDuKienHoanTatPhut) minutes</dd>
+
+                    <dt class="col-sm-4">Notes/Special Requests:</dt>
+                    <dd class="col-sm-8">@(string.IsNullOrEmpty(Model.GhiChu) ? "N/A" : Model.GhiChu)</dd>
+
+                    <dt class="col-sm-4">Status:</dt>
+                    <dd class="col-sm-8">
+                        <span class="badge @(Model.TrangThai == WeddingRestaurant.Models.TrangThaiDatBan.ChoXacNhan ? "bg-warning text-dark" :
+                                            Model.TrangThai == WeddingRestaurant.Models.TrangThaiDatBan.DaXacNhan ? "bg-info" :
+                                            Model.TrangThai == WeddingRestaurant.Models.TrangThaiDatBan.DaXepBan ? "bg-primary" :
+                                            Model.TrangThai == WeddingRestaurant.Models.TrangThaiDatBan.HoanThanh ? "bg-success" :
+                                            Model.TrangThai == WeddingRestaurant.Models.TrangThaiDatBan.DaHuy ? "bg-danger" : "bg-secondary")">
+                            @Html.DisplayFor(model => model.TrangThai)
+                        </span>
+                    </dd>
+
+                    @if (!string.IsNullOrEmpty(Model.LyDoHuy))
+                    {
+                        <dt class="col-sm-4">Cancellation Reason:</dt>
+                        <dd class="col-sm-8 text-danger">@Html.DisplayFor(model => model.LyDoHuy)</dd>
+                    }
+                    @if (!string.IsNullOrEmpty(Model.BanDaXep))
+                    {
+                        <dt class="col-sm-4">Assigned Table(s):</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(model => model.BanDaXep)</dd>
+                    }
+
+                    <dt class="col-sm-4">Booking Created On:</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.ThoiGianTao)</dd>
+                </dl>
+            </div>
+            <div class="card-footer text-end">
+                <a asp-action="MyBookings" class="btn btn-secondary">Back to List</a>
+                @if (Model.TrangThai != WeddingRestaurant.Models.TrangThaiDatBan.DaHuy && Model.TrangThai != WeddingRestaurant.Models.TrangThaiDatBan.HoanThanh)
+                {
+                    <a asp-action="CancelBooking" asp-route-id="@Model.Id" class="btn btn-warning"><i class="bi bi-x-circle"></i> Cancel Booking</a>
+                }
+            </div>
+        </div>
+    </div>
+</div>
