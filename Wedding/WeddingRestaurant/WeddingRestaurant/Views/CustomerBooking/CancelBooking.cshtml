@@ -1,0 +1,49 @@
+﻿@model WeddingRestaurant.Models.DatBan
+@{
+    ViewData["Title"] = "Cancel Booking";
+}
+
+<h2 class="text-center text-danger mb-4">Confirm Cancellation</h2>
+<p class="text-center text-muted">Are you sure you want to cancel this booking? Please provide a reason below.</p>
+<hr />
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card border-danger shadow-sm">
+            <div class="card-header bg-danger text-white">
+                <h5 class="mb-0">Booking Details to be Cancelled</h5>
+            </div>
+            <div class="card-body">
+                <dl class="row">
+                    <dt class="col-sm-4">Booking ID:</dt>
+                    <dd class="col-sm-8">#@Html.DisplayFor(model => model.Id)</dd>
+
+                    <dt class="col-sm-4">Full Name:</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.TenKhachHang)</dd>
+
+                    <dt class="col-sm-4">Phone Number:</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.SoDienThoai)</dd>
+
+                    <dt class="col-sm-4">Booking Date & Time:</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.ThoiGianNhanBan)</dd>
+
+                    <dt class="col-sm-4">Status:</dt>
+                    <dd class="col-sm-8">
+                        <span class="badge bg-warning text-dark">@Html.DisplayFor(model => model.TrangThai)</span>
+                    </dd>
+                </dl>
+                <form asp-controller="CustomerBooking" asp-action="CancelBooking" method="post">
+                    <input type="hidden" asp-for="Id" />
+                    <div class="mb-3">
+                        <label for="reason" class="form-label">Reason for Cancellation:</label>
+                        <textarea name="reason" id="reason" class="form-control" rows="3" required placeholder="e.g., Change of plans, found another venue, incorrect details."></textarea>
+                    </div>
+                    <div class="d-grid gap-2 mt-4">
+                        <button type="submit" class="btn btn-danger btn-lg"><i class="bi bi-x-octagon"></i> Confirm Cancellation</button>
+                        <a asp-action="MyBookings" class="btn btn-secondary">Back to My Bookings</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
