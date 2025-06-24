@@ -39,39 +39,32 @@ namespace WeddingRestaurant.Controllers
         // POST: CustomerBooking/Create
         // Xử lý việc gửi yêu cầu đặt bàn từ form.
         [HttpPost]
-        [ValidateAntiForgeryToken] // Bảo vệ chống lại tấn công CSRF
-        public async Task<IActionResult> Create([FromForm] DatBan datBan) // Nhận đối tượng DatBan từ form
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([FromForm] DatBan datBan)
         {
-            if (ModelState.IsValid) // Kiểm tra tính hợp lệ của dữ liệu từ form (dựa trên Data Annotations trong Model)
+            // Bỏ qua validate ApplicationUserId vì sẽ gán ở server
+            ModelState.Remove(nameof(DatBan.ApplicationUserId));
+
+            if (ModelState.IsValid)
             {
-                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // Lấy ID của người dùng đang đăng nhập
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
                 if (userId == null)
                 {
-                    // Trả về Unauthorized nếu không tìm thấy User ID (mặc dù đã có [Authorize])
                     return Unauthorized("You need to be logged in to make a booking.");
                 }
 
-                // Thêm validation logic tùy chỉnh: Đặt bàn phải cách ít nhất 2 giờ so với thời điểm hiện tại
-                if (datBan.ThoiGianNhanBan <= DateTime.Now.AddHours(2))
-                {
-                    ModelState.AddModelError("ThoiGianNhanBan", "Booking time must be at least 2 hours from now.");
-                }
+                // Gán ApplicationUserId ở đây
+                datBan.ApplicationUserId = userId;
+                datBan.ThoiGianTao = DateTime.Now;
+                datBan.TrangThai = TrangThaiDatBan.ChoXacNhan;
+                datBan.TienCoc = 0;
+                datBan.PhuongThucDatCoc = null;
 
-                if (ModelState.IsValid) // Kiểm tra lại sau khi thêm validation tùy chỉnh
-                {
-                    datBan.ApplicationUserId = userId; // Gán ID người dùng cho đặt bàn
-                    datBan.ThoiGianTao = DateTime.Now; // Gán thời gian tạo
-                    datBan.TrangThai = TrangThaiDatBan.ChoXacNhan; // Đặt trạng thái ban đầu là "Chờ Xác Nhận"
-                    datBan.TienCoc = 0; // Mặc định tiền cọc là 0
-                    datBan.PhuongThucDatCoc = null; // Mặc định phương thức đặt cọc là null
-
-                    await _unitOfWork.DatBans.AddAsync(datBan); // Thêm đối tượng DatBan vào context
-                    await _unitOfWork.CompleteAsync(); // Lưu thay đổi vào cơ sở dữ liệu
-                    TempData["SuccessMessage"] = "Your booking request has been sent. We will contact you soon for confirmation!";
-                    return RedirectToAction("MyBookings"); // Chuyển hướng đến trang danh sách đặt bàn của tôi
-                }
+                await _unitOfWork.DatBans.AddAsync(datBan);
+                await _unitOfWork.CompleteAsync();
+                TempData["SuccessMessage"] = "Your booking request has been sent. We will contact you soon for confirmation!";
+                return RedirectToAction("MyBookings");
             }
-            // Nếu ModelState không hợp lệ, quay lại View với dữ liệu đã điền để người dùng sửa
             return View(datBan);
         }
 
