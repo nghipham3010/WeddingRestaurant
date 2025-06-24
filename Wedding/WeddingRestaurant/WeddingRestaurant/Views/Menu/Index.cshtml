@@ -1,7 +1,8 @@
-﻿@model IEnumerable<WeddingRestaurant.Models.MonAn>
+﻿@model PaginatedList<WeddingRestaurant.Models.MonAn>
 
 @{
     ViewData["Title"] = "Thực Đơn Nhà Hàng";
+    var currentFilter = ViewData["CurrentFilter"]?.ToString();
 }
 
 <div class="container py-4">
@@ -11,7 +12,7 @@
         <div class="col-md-6 offset-md-3">
             <form asp-controller="Menu" asp-action="Index" method="get">
                 <div class="input-group">
-                    <input type="text" class="form-control" name="searchString" placeholder="Tìm kiếm món ăn..." value="@ViewData["CurrentFilter"]" />
+                    <input type="text" class="form-control" name="searchString" placeholder="Tìm kiếm món ăn..." value="@currentFilter" />
                     <button class="btn btn-outline-primary" type="submit">Tìm kiếm</button>
                     <a asp-action="Index" class="btn btn-outline-secondary">Xóa tìm kiếm</a>
                 </div>
@@ -43,30 +44,54 @@
                         <div class="card-body d-flex flex-column">
                             <h5 class="card-title text-primary">@item.TenMonAn</h5>
                             <p class="card-text text-muted flex-grow-1">
-                                @if (!string.IsNullOrEmpty(item.MoTa) && item.MoTa.Length > 100)
-                                {
-                                    @(item.MoTa.Substring(0, 100) + "...")
-                                }
-                                else if (!string.IsNullOrEmpty(item.MoTa))
-                                {
-                                    @item.MoTa
-                                }
-                                else
-                                {
-                                    <span>(Không có mô tả)</span>
-                                }
+                                @((!string.IsNullOrEmpty(item.MoTa) && item.MoTa.Length > 100) ? item.MoTa.Substring(0, 100) + "..." : item.MoTa ?? "(Không có mô tả)")
                             </p>
                             <div class="d-flex justify-content-between align-items-center mt-auto">
                                 <h4 class="mb-0 text-success">@item.GiaTien.ToString("N0") VNĐ</h4>
-                                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-info btn-sm">Xem chi tiết</a>
+                                <div class="btn-group">
+                                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-info btn-sm">Xem</a>
+                                    <a asp-controller="Cart" asp-action="AddToCart" asp-route-id="@item.Id" class="btn btn-success btn-sm">🛒</a>
+                                </div>
                             </div>
+
                         </div>
                     </div>
                 </div>
             }
         </div>
+
+        <!-- PHÂN TRANG -->
+        <nav class="mt-4 d-flex justify-content-center">
+            <ul class="pagination">
+                @if (Model.HasPreviousPage)
+                {
+                    <li class="page-item">
+                        <a class="page-link" asp-action="Index" asp-route-pageNumber="@(Model.PageIndex - 1)" asp-route-searchString="@currentFilter">«</a>
+                    </li>
+                }
+                else
+                {
+                    <li class="page-item disabled"><span class="page-link">«</span></li>
+                }
+
+                @for (int i = 1; i <= Model.TotalPages; i++)
+                {
+                    <li class="page-item @(i == Model.PageIndex ? "active" : "")">
+                        <a class="page-link" asp-action="Index" asp-route-pageNumber="@i" asp-route-searchString="@currentFilter">@i</a>
+                    </li>
+                }
+
+                @if (Model.HasNextPage)
+                {
+                    <li class="page-item">
+                        <a class="page-link" asp-action="Index" asp-route-pageNumber="@(Model.PageIndex + 1)" asp-route-searchString="@currentFilter">»</a>
+                    </li>
+                }
+                else
+                {
+                    <li class="page-item disabled"><span class="page-link">»</span></li>
+                }
+            </ul>
+        </nav>
     }
 </div>
-
-@section Scripts {
-    }

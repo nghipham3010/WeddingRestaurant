@@ -21,6 +21,8 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddRazorPages();
 
+builder.Services.AddSession();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -37,6 +39,8 @@ app.UseAuthorization();
 app.MapStaticAssets();
 
 app.MapRazorPages();
+
+app.UseSession();
 
 app.MapControllerRoute(
     name: "areas",

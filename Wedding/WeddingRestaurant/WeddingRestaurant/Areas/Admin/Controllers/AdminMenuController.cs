@@ -35,7 +35,7 @@ namespace WeddingRestaurant.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(monAn);
+                _context.MonAns.Add(monAn);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
