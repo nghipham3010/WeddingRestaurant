@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("WeddingRestaurant")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+fd8c0959f64fb243adcfc7b629750745eef63252")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3fecd44022e4f6f53864b342ed6570b8a902dd94")]
 [assembly: System.Reflection.AssemblyProductAttribute("WeddingRestaurant")]
 [assembly: System.Reflection.AssemblyTitleAttribute("WeddingRestaurant")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
