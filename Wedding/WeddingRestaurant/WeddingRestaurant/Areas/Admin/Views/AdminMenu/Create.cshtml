@@ -1,0 +1,112 @@
+﻿@model WeddingRestaurant.Models.MonAn
+@{
+    ViewData["Title"] = "Thêm món ăn";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    body {
+        background: linear-gradient(to right, #fdfbfb, #ebedee);
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .form-container {
+        background: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        padding: 2rem;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    .form-label {
+        font-weight: 600;
+    }
+
+    .btn-success {
+        background-color: #10b981;
+        border: none;
+    }
+
+        .btn-success:hover {
+            background-color: #059669;
+        }
+
+    .btn-secondary {
+        background-color: #6b7280;
+        border: none;
+    }
+
+        .btn-secondary:hover {
+            background-color: #4b5563;
+        }
+
+    .preview-img {
+        max-height: 200px;
+        margin-top: 10px;
+        border-radius: 8px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    }
+</style>
+
+<div class="container py-5">
+    <div class="form-container">
+        <h2 class="mb-4 text-center">Thêm món ăn mới</h2>
+        <form asp-action="Create" method="post">
+            @Html.AntiForgeryToken()
+
+            <div class="mb-3">
+                <label class="form-label">Tên món ăn</label>
+                <input asp-for="TenMonAn" class="form-control" />
+                <span asp-validation-for="TenMonAn" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Giá tiền</label>
+                <input asp-for="GiaTien" class="form-control" />
+                <span asp-validation-for="GiaTien" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Mô tả</label>
+                <textarea asp-for="MoTa" class="form-control" rows="3"></textarea>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">URL hình ảnh</label>
+                <input asp-for="HinhAnhUrl" class="form-control" id="imgUrlInput" />
+                <img id="previewImg" class="preview-img d-none" />
+            </div>
+
+            <div class="form-check mb-4">
+                <input asp-for="IsActive" class="form-check-input" />
+                <label class="form-check-label">Đang hoạt động</label>
+            </div>
+
+            <div class="d-flex justify-content-between">
+                <button type="submit" class="btn btn-success px-4">Lưu</button>
+                <a asp-action="Index" class="btn btn-secondary">Hủy</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        const imgInput = document.getElementById('imgUrlInput');
+        const previewImg = document.getElementById('previewImg');
+
+        imgInput.addEventListener('input', () => {
+            const url = imgInput.value.trim();
+            if (url && (url.startsWith('http://') || url.startsWith('https://'))) {
+                previewImg.src = url;
+                previewImg.classList.remove('d-none');
+            } else {
+                previewImg.src = "";
+                previewImg.classList.add('d-none');
+            }
+        });
+    </script>
+}
+
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers

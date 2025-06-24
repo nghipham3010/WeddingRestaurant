@@ -1,0 +1,101 @@
+﻿@model IEnumerable<WeddingRestaurant.Models.MonAn>
+@{
+    ViewData["Title"] = "Quản lý món ăn";
+    Layout = "~/Views/Shared/_Layout.cshtml"; // hoặc layout của Area
+}
+
+<style>
+    body {
+        background: linear-gradient(to right, #fdfbfb, #ebedee);
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .table th {
+        background-color: #dbeafe !important;
+        color: #1e3a8a;
+    }
+
+    .table tbody tr:hover {
+        background-color: #f0f9ff;
+    }
+
+    .btn-primary {
+        background-color: #3b82f6;
+        border: none;
+    }
+
+    .btn-primary:hover {
+        background-color: #2563eb;
+    }
+
+    .btn-warning {
+        background-color: #f59e0b;
+        border: none;
+    }
+
+    .btn-warning:hover {
+        background-color: #d97706;
+    }
+
+    .btn-danger {
+        background-color: #ef4444;
+        border: none;
+    }
+
+    .btn-danger:hover {
+        background-color: #dc2626;
+    }
+
+    .shadow-soft {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+</style>
+
+<div class="container py-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="mb-0">Danh sách món ăn</h2>
+        <a asp-area="Admin" asp-controller="AdminMenu" asp-action="Create" class="btn btn-primary px-4 py-2">+ Thêm món ăn</a>
+    </div>
+
+    <div class="table-responsive shadow-soft rounded bg-white p-3">
+        <table class="table table-hover align-middle text-center mb-0">
+            <thead class="table-light border-bottom">
+                <tr>
+                    <th>#</th>
+                    <th class="text-start">Tên món ăn</th>
+                    <th>Giá tiền</th>
+                    <th>Trạng thái</th>
+                    <th>Hành động</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td class="fw-bold text-muted">@item.Id</td>
+                        <td class="text-start">@item.TenMonAn</td>
+                        <td>@item.GiaTien.ToString("N0") đ</td>
+                        <td>
+                            @if (item.IsActive)
+                            {
+                                <span class="badge bg-success">Đang bán</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-secondary">Ngừng bán</span>
+                            }
+                        </td>
+                        <td>
+                            <div class="d-flex justify-content-center gap-2">
+                                <a asp-area="Admin" asp-controller="AdminMenu" asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning">Sửa</a>
+                                <a asp-area="Admin" asp-controller="AdminMenu" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger">Xóa</a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers

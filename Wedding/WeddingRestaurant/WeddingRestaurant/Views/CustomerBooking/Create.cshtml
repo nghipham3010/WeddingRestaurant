@@ -40,7 +40,8 @@
             <div class="row">
                 <div class="col-md-6 mb-3">
                     <label asp-for="ThoiGianNhanBan" class="form-label">Booking Date</label>
-                    <input asp-for="ThoiGianNhanBan" type="text" class="form-control datepicker-input" value="@Model.ThoiGianNhanBan.ToString("dd/MM/yyyy")" data-date-format="dd/mm/yyyy" />
+                    <!-- KHÔNG dùng asp-for ở đây để tránh gửi trùng name -->
+                    <input type="text" class="form-control datepicker-input" value="@Model.ThoiGianNhanBan.ToString("dd/MM/yyyy")" data-date-format="dd/mm/yyyy" />
                     <span asp-validation-for="ThoiGianNhanBan" class="text-danger"></span>
                 </div>
                 <div class="col-md-6 mb-3">
@@ -64,6 +65,7 @@
                 <span asp-validation-for="GhiChu" class="text-danger"></span>
             </div>
 
+            <!-- CHỈ GIỮ LẠI 1 input name="ThoiGianNhanBan" -->
             <input type="hidden" id="combinedDateTimeCustomer" name="ThoiGianNhanBan" value="@Model.ThoiGianNhanBan.ToString("o")" />
             <input type="hidden" asp-for="TienCoc" />
             <input type="hidden" asp-for="PhuongThucDatCoc" />

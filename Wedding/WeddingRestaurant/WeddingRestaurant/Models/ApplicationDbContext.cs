@@ -14,6 +14,7 @@ namespace WeddingRestaurant.Models
         public DbSet<MonAn> MonAns { get; set; }
         public DbSet<Sanh> Sanhs { get; set; }
         public DbSet<DatBan> DatBans { get; set; }
+        public DbSet<BanAn> BanAns { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
