@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WeddingRestaurant.Models;
 
@@ -11,9 +12,11 @@ using WeddingRestaurant.Models;
 namespace WeddingRestaurant.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250624121011_ThanhToan")]
+    partial class ThanhToan
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -353,54 +356,6 @@ namespace WeddingRestaurant.Migrations
                     b.ToTable("MonAns");
                 });
 
-            modelBuilder.Entity("WeddingRestaurant.Models.Order", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("NgayDat")
-                        .HasColumnType("datetime2");
-
-                    b.Property<decimal>("TongTien")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Orders");
-                });
-
-            modelBuilder.Entity("WeddingRestaurant.Models.OrderDetail", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<decimal>("GiaTien")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("MonAnId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("OrderId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SoLuong")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("MonAnId");
-
-                    b.HasIndex("OrderId");
-
-                    b.ToTable("OrderDetails");
-                });
-
             modelBuilder.Entity("WeddingRestaurant.Models.Sanh", b =>
                 {
                     b.Property<int>("Id")
@@ -492,30 +447,6 @@ namespace WeddingRestaurant.Migrations
                         .IsRequired();
 
                     b.Navigation("ApplicationUser");
-                });
-
-            modelBuilder.Entity("WeddingRestaurant.Models.OrderDetail", b =>
-                {
-                    b.HasOne("WeddingRestaurant.Models.MonAn", "MonAn")
-                        .WithMany()
-                        .HasForeignKey("MonAnId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("WeddingRestaurant.Models.Order", "Order")
-                        .WithMany("ChiTietDonHangs")
-                        .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("MonAn");
-
-                    b.Navigation("Order");
-                });
-
-            modelBuilder.Entity("WeddingRestaurant.Models.Order", b =>
-                {
-                    b.Navigation("ChiTietDonHangs");
                 });
 #pragma warning restore 612, 618
         }

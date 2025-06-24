@@ -15,6 +15,9 @@ namespace WeddingRestaurant.Models
         public DbSet<Sanh> Sanhs { get; set; }
         public DbSet<DatBan> DatBans { get; set; }
         public DbSet<BanAn> BanAns { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderDetail> OrderDetails { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

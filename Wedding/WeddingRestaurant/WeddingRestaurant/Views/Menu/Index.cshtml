@@ -5,6 +5,77 @@
     var currentFilter = ViewData["CurrentFilter"]?.ToString();
 }
 
+@inject IHttpContextAccessor HttpContextAccessor
+@using Newtonsoft.Json
+@{
+    var cartJson = HttpContextAccessor.HttpContext?.Session.GetString("Cart");
+    var cartItems = !string.IsNullOrEmpty(cartJson)
+        ? JsonConvert.DeserializeObject<List<CartItem>>(cartJson)
+        : new List<CartItem>();
+
+    var tongSoLuong = cartItems.Sum(c => c.SoLuong);
+    var tongTien = cartItems.Sum(c => c.SoLuong * c.GiaTien);
+}
+<style>
+    body {
+        background: linear-gradient(to right, #f9f6f2, #f0f7ff);
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    h1 {
+        font-weight: bold;
+        color: #34495e;
+    }
+
+    .card {
+        border-radius: 10px;
+        transition: transform 0.2s ease, box-shadow 0.3s ease;
+        overflow: hidden;
+    }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+    .card-img-top {
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+    }
+
+    .btn {
+        border-radius: 6px;
+    }
+
+    .pagination .page-link {
+        border-radius: 8px;
+        margin: 0 2px;
+    }
+
+    .input-group .form-control {
+        border-radius: 6px 0 0 6px;
+    }
+
+    .input-group .btn {
+        border-radius: 0 6px 6px 0;
+    }
+
+    .badge {
+        font-size: 0.8rem;
+        padding: 5px 8px;
+    }
+</style>
+
+<div class="d-flex justify-content-end mb-4">
+    <a asp-controller="Cart" asp-action="Index" class="btn btn-outline-dark position-relative">
+        <i class="bi bi-cart-fill"></i> Giỏ hàng
+        <span id="cart-count" class="badge bg-danger position-absolute top-0 start-100 translate-middle">
+            @tongSoLuong
+        </span>
+    </a>
+</div>
+
+
 <div class="container py-4">
     <h1 class="text-center mb-4">Thực Đơn Phong Phú</h1>
 
@@ -50,7 +121,10 @@
                                 <h4 class="mb-0 text-success">@item.GiaTien.ToString("N0") VNĐ</h4>
                                 <div class="btn-group">
                                     <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-info btn-sm">Xem</a>
-                                    <a asp-controller="Cart" asp-action="AddToCart" asp-route-id="@item.Id" class="btn btn-success btn-sm">🛒</a>
+                                    <button class="btn btn-success btn-sm add-to-cart" data-id="@item.Id">
+                                        Thêm vào giỏ
+                                    </button>
+
                                 </div>
                             </div>
 
@@ -93,5 +167,27 @@
                 }
             </ul>
         </nav>
+        @section Scripts {
+            <script>
+                document.querySelectorAll(".add-to-cart").forEach(button => {
+                    button.addEventListener("click", function () {
+                        const productId = this.getAttribute("data-id");
+                        fetch(`/Cart/AddToCart/${productId}`, {
+                            method: "POST",
+                            headers: {
+                                "RequestVerificationToken": $('input[name="__RequestVerificationToken"]').val()
+                            }
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                document.getElementById("cart-count").innerText = data.totalQuantity;
+                            }
+                        });
+                    });
+                });
+            </script>
+    }
+
     }
 </div>

@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using WeddingRestaurant.Helpers;
 using WeddingRestaurant.Models;
+using Newtonsoft.Json;
 
 namespace WeddingRestaurant.Controllers
 {
@@ -39,9 +41,16 @@ namespace WeddingRestaurant.Controllers
                     GiaTien = monAn.GiaTien,
                     SoLuong = 1
                 });
+            HttpContext.Session.SetObjectAsJson("Cart", cart);
 
+            
             SaveCart(cart);
-            return RedirectToAction("Index", "Cart");
+            return Json(new
+            {
+                success = true,
+                totalQuantity = cart.Sum(c => c.SoLuong)
+            });
+            //return RedirectToAction("Index", "Cart");
         }
 
         // Xóa một món khỏi giỏ
@@ -61,6 +70,67 @@ namespace WeddingRestaurant.Controllers
             return RedirectToAction("Index");
         }
 
+        // GET: Cart/Checkout
+        public IActionResult Checkout()
+        {
+            var cartJson = HttpContext.Session.GetString("Cart");
+            var cartItems = !string.IsNullOrEmpty(cartJson)
+                ? JsonConvert.DeserializeObject<List<CartItem>>(cartJson)
+                : new List<CartItem>();
+
+            if (!cartItems.Any())
+            {
+                TempData["Message"] = "Giỏ hàng trống!";
+                return RedirectToAction("Index");
+            }
+
+            var total = cartItems.Sum(i => i.ThanhTien);
+            ViewBag.Total = total;
+
+            return View(cartItems);
+        }
+
+        // POST: Cart/ConfirmCheckout
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult ConfirmCheckout()
+        {
+            var cartJson = HttpContext.Session.GetString("Cart");
+            var cartItems = !string.IsNullOrEmpty(cartJson)
+                ? JsonConvert.DeserializeObject<List<CartItem>>(cartJson)
+                : new List<CartItem>();
+
+            if (!cartItems.Any())
+            {
+                TempData["Message"] = "Giỏ hàng trống!";
+                return RedirectToAction("Index");
+            }
+
+            // Tạo đơn hàng
+            var order = new Order
+            {
+                NgayDat = DateTime.Now,
+                TongTien = cartItems.Sum(c => c.ThanhTien),
+                ChiTietDonHangs = cartItems.Select(c => new OrderDetail
+                {
+                    MonAnId = c.MonAnId,
+                    SoLuong = c.SoLuong,
+                    GiaTien = c.GiaTien
+                }).ToList()
+            };
+
+            _context.Orders.Add(order);
+            _context.SaveChanges();
+
+            // Xoá giỏ hàng khỏi session
+            HttpContext.Session.Remove("Cart");
+
+            TempData["Message"] = "Đặt món thành công! Mã đơn: #" + order.Id;
+            return RedirectToAction("Index", "Menu");
+        }
+
+
+
         // ========== Helper ==========
 
         private List<CartItem> GetCart()
@@ -76,5 +146,6 @@ namespace WeddingRestaurant.Controllers
             var data = System.Text.Json.JsonSerializer.Serialize(cart);
             HttpContext.Session.SetString(CartSessionKey, data);
         }
+
     }
 }
