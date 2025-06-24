@@ -9,6 +9,7 @@ namespace WeddingRestaurant.Repositories
         private IRepository<MonAn>? _monAnRepository;
         private IRepository<Sanh>? _sanhRepository;
         private IRepository<DatBan>? _datBanRepository;
+        private IBanAnRepository? _banAnRepository; // Thêm dòng này
 
         public UnitOfWork(ApplicationDbContext context)
         {
@@ -30,6 +31,13 @@ namespace WeddingRestaurant.Repositories
         public IRepository<DatBan> DatBans
         {
             get { return _datBanRepository ??= new Repository<DatBan>(_context); }
+        }
+
+        //public IBanAnRepository BanAns => throw new NotImplementedException();
+
+        public IBanAnRepository BanAns // Thêm property này
+        {
+            get { return _banAnRepository ??= new BanAnRepository(_context); }
         }
 
         // Phương thức để lưu các thay đổi vào cơ sở dữ liệu

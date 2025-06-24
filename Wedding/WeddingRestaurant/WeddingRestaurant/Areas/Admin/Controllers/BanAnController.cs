@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WeddingRestaurant.Models;
+using WeddingRestaurant.Repositories;
 
 
 namespace WeddingRestaurant.Controllers
@@ -10,11 +11,13 @@ namespace WeddingRestaurant.Controllers
     [Authorize(Roles = "Admin")]
     public class BanAnController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context; // Hoặc dùng IBanAnRepository
+        private readonly IBanAnRepository _banAnRepository; // Thêm dòng này
 
-        public BanAnController(ApplicationDbContext context)
+        public BanAnController(ApplicationDbContext context, IBanAnRepository banAnRepository) // Chỉnh sửa constructor
         {
             _context = context;
+            _banAnRepository = banAnRepository;
         }
 
         // GET: /BanAn/Index
@@ -54,17 +57,56 @@ namespace WeddingRestaurant.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(BanAn banAn)
         {
-            if (ModelState.IsValid)
+            // Bước 1: Kiểm tra Model State.
+            // Nếu dữ liệu từ form không hợp lệ theo các Validation Attributes (như [Required]),
+            // thì ModelState.IsValid sẽ là false.
+            if (!ModelState.IsValid)
             {
-                _context.BanAns.Add(banAn); // hoặc _unitOfWork.BanAns.AddAsync(banAn)
-                await _context.SaveChangesAsync(); // hoặc _unitOfWork.CompleteAsync()
+                // Debugging: Có thể ghi log các lỗi ở đây để xem chúng là gì
+                var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage);
+                foreach (var error in errors)
+                {
+                    Console.WriteLine($"Validation Error: {error}"); // Ghi log lỗi vào Console (trong chế độ debug)
+                }
+                // Trả về View với dữ liệu đã nhập để hiển thị các thông báo lỗi validation.
+                return View(banAn);
+            }
 
+            // Nếu ModelState.IsValid là true, tiếp tục xử lý
+            try
+            {
+                // Bước 2: Thêm đối tượng BanAn vào cơ sở dữ liệu thông qua Repository.
+                // Chỉ sử dụng một trong hai cách dưới đây, ưu tiên dùng Repository.
+                await _banAnRepository.AddAsync(banAn); // Sử dụng Repository
+
+                // Bước 3: Lưu các thay đổi vào cơ sở dữ liệu.
+                // Vì _banAnRepository được khởi tạo với _context, việc SaveChangesAsync() trên _context
+                // sẽ lưu các thay đổi mà _banAnRepository đã thêm.
+                await _context.SaveChangesAsync();
+
+                // Bước 4: Thông báo thành công và chuyển hướng.
                 TempData["SuccessMessage"] = "Bàn đã được thêm thành công!";
                 return RedirectToAction("Index");
             }
-
-            // Nếu không hợp lệ, trả lại view với dữ liệu đã nhập
-            return View(banAn);
+            catch (DbUpdateException ex)
+            {
+                // Xử lý lỗi khi lưu vào DB, ví dụ: trùng MaBan nếu có ràng buộc UNIQUE
+                // Log lỗi chi tiết: ex.Message, ex.InnerException
+                Console.WriteLine($"Database Error: {ex.Message}");
+                if (ex.InnerException != null)
+                {
+                    Console.WriteLine($"Inner Exception: {ex.InnerException.Message}");
+                }
+                ModelState.AddModelError("", "Đã xảy ra lỗi khi lưu dữ liệu. Có thể mã bàn đã tồn tại hoặc dữ liệu không hợp lệ.");
+                return View(banAn); // Trả về view với lỗi
+            }
+            catch (Exception ex)
+            {
+                // Xử lý các lỗi chung khác
+                Console.WriteLine($"An unexpected error occurred: {ex.Message}");
+                ModelState.AddModelError("", "Đã xảy ra lỗi không mong muốn. Vui lòng thử lại.");
+                return View(banAn);
+            }
         }
 
 

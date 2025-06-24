@@ -15,6 +15,8 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.R
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<IBanAnRepository, BanAnRepository>();
+
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -36,7 +38,6 @@ app.UseAuthorization();
 
 app.MapStaticAssets();
 
-app.MapRazorPages();
 
 app.MapControllerRoute(
     name: "areas",
@@ -53,5 +54,7 @@ app.MapControllerRoute(
 //        name: "areas",
 //        pattern: "{area:exists}/{controller=AdminMenu}/{action=Index}/{id?}");
 //});
+
+app.MapRazorPages();
 
 app.Run();

@@ -9,6 +9,7 @@ namespace WeddingRestaurant.Repositories
         IRepository<MonAn> MonAns { get; }      // Repository cho các Món Ăn
         IRepository<Sanh> Sanhs { get; }        // Repository cho các Sảnh
         IRepository<DatBan> DatBans { get; }    // Repository cho các Đặt Bàn
+        IBanAnRepository BanAns { get; } // Thêm dòng này
 
         // Phương thức để lưu tất cả các thay đổi vào cơ sở dữ liệu
         Task CompleteAsync();

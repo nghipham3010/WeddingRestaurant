@@ -45,6 +45,7 @@
         <div class="col-md-8 form-container">
             <h2 class="text-center">🪑 Thêm bàn mới</h2>
             <form asp-action="Create" method="post">
+                @Html.ValidationSummary(true, "Vui lòng khắc phục các lỗi sau:", new { @class = "text-danger" })
                 <div class="mb-3">
                     <label asp-for="MaBan" class="form-label">Mã Bàn</label>
                     <input asp-for="MaBan" class="form-control" placeholder="VD: B001" />
@@ -80,7 +81,7 @@
 
                 <div class="d-grid gap-2">
                     <button type="submit" class="btn btn-success btn-lg">💾 Lưu bàn</button>
-                    <a asp-action="Index" class="btn btn-outline-secondary">⬅️ Quay lại danh sách</a>
+                    <a asp-controller="BanAnController" asp-action="Index" class="btn btn-outline-secondary">⬅️ Quay lại danh sách</a>
                 </div>
             </form>
         </div>
