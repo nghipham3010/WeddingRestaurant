@@ -52,7 +52,8 @@
 <div class="container py-5">
     <div class="form-container">
         <h2 class="mb-4 text-center">Thêm món ăn mới</h2>
-        <form asp-action="Create" method="post">
+        <form asp-action="Create" method="post" enctype="multipart/form-data">
+
             @Html.AntiForgeryToken()
 
             <div class="mb-3">
@@ -73,9 +74,13 @@
             </div>
 
             <div class="mb-3">
-                <label class="form-label">URL hình ảnh</label>
-                <input asp-for="HinhAnhUrl" class="form-control" id="imgUrlInput" />
-                <img id="previewImg" class="preview-img d-none" />
+                <label class="form-label">Hình ảnh món ăn</label>
+                <input asp-for="UploadedImage" type="file" class="form-control" accept="image/*" />
+                @if (Model != null && !string.IsNullOrEmpty(Model.HinhAnhUrl))
+                {
+                    <img src="@Model.HinhAnhUrl" alt="@Model.TenMonAn" style="max-height: 200px;" />
+                }
+
             </div>
 
             <div class="form-check mb-4">

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WeddingRestaurant.Models
 {
@@ -22,7 +23,11 @@ namespace WeddingRestaurant.Models
         public string? MoTa { get; set; } // Nullable
 
         [Display(Name = "Đường Dẫn Hình Ảnh")]
-        public string? HinhAnhUrl { get; set; } // Lưu URL của hình ảnh món ăn
+        [NotMapped]
+        public IFormFile? UploadedImage { get; set; }
+
+        public string? HinhAnhUrl { get; set; } // Đây vẫn dùng để lưu tên file
+
 
         [Display(Name = "Trạng Thái")]
         public bool IsActive { get; set; } = true; // Mặc định là đang kinh doanh

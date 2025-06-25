@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -18,42 +22,42 @@
 
     <style>
         body {
-            background: linear-gradient(to right, #f9f9f9, #eef5ff);
-            font-family: 'Quicksand', sans-serif;
+        background: linear-gradient(to right, #f9f9f9, #eef5ff);
+        font-family: 'Quicksand', sans-serif;
         }
 
         header .navbar {
-            background: rgba(255, 255, 255, 0.95);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        background: rgba(255, 255, 255, 0.95);
+        box-shadow: 0 4px 10px rgba(0,0,0,0.05);
         }
 
         .navbar-brand {
-            font-weight: 600;
-            font-size: 1.25rem;
-            color: #2c3e50;
+        font-weight: 600;
+        font-size: 1.25rem;
+        color: #2c3e50;
         }
 
         .navbar-nav .nav-link {
-            font-weight: 500;
+        font-weight: 500;
         }
 
-            .navbar-nav .nav-link.active {
-                font-weight: bold;
-                border-bottom: 2px solid #3498db;
-                color: #3498db !important;
-            }
+        .navbar-nav .nav-link.active {
+        font-weight: bold;
+        border-bottom: 2px solid #3498db;
+        color: #3498db !important;
+        }
 
         .footer {
-            background: #ffffffcc;
-            padding: 1rem 0;
-            font-size: 0.9rem;
+        background: #ffffffcc;
+        padding: 1rem 0;
+        font-size: 0.9rem;
         }
 
         .container main {
-            background: white;
-            padding: 2rem;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+        background: white;
+        padding: 2rem;
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
         }
     </style>
 </head>
@@ -63,7 +67,7 @@
             <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">MyWeddingRestaurant</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse"
-                        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
@@ -74,19 +78,34 @@
                                 <i class="fas fa-tachometer-alt me-1"></i> Dashboard
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Menu" ? "active" : "")"
-                               asp-controller="Menu" asp-action="Index">
-                                <i class="fas fa-book-open me-1"></i> Thực Đơn Công Khai
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "CustomerBooking" ? "active" : "")"
-                               asp-controller="CustomerBooking" asp-action="Create">
-                                <i class="fas fa-calendar-plus me-1"></i> Đặt bàn
-                            </a>
-                        </li>
+                        @* Nếu người dùng là Customer thì hiện thêm menu khách hàng *@
+                        @if (SignInManager.IsSignedIn(User) && User.IsInRole("Customer"))
+                        {                            
+                            <li class="nav-item">
+                                <a class="nav-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Menu" ? "active" : "")"
+                                asp-controller="Menu" asp-action="Index">
+                                    <i class="fas fa-book-open me-1"></i> Thực Đơn Công Khai
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "CustomerBooking" ? "active" : "")"
+                                asp-controller="CustomerBooking" asp-action="Create">
+                                    <i class="fas fa-calendar-plus me-1"></i> Đặt bàn
+                                </a>
+                            </li>
+                        }
+                        @* Nếu người dùng là Admin thì hiện thêm menu quản trị *@
+                        @if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link @(ViewContext.RouteData.Values["Area"]?.ToString() == "Admin" ? "active" : "")"
+                                   asp-area="Admin" asp-controller="AdminMenu" asp-action="Index">
+                                    <i class="fas fa-tools me-1"></i> Quản lý món ăn
+                                </a>
+                            </li>
+                        }
                     </ul>
+
                     <partial name="_LoginPartial" />
                 </div>
             </div>
@@ -101,7 +120,8 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2025 - MyWeddingRestaurant - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2025 - MyWeddingRestaurant -
+            <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
 

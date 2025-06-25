@@ -26,21 +26,39 @@ namespace WeddingRestaurant.Areas.Admin.Controllers
         // GET: Admin/AdminMenu/Create
         public IActionResult Create()
         {
-            return View();
+            return View(new MonAn());
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(MonAn monAn)
+[ValidateAntiForgeryToken]
+public async Task<IActionResult> Create(MonAn monAn)
+{
+    if (ModelState.IsValid)
+    {
+        // Nếu có ảnh được upload
+        if (monAn.UploadedImage != null && monAn.UploadedImage.Length > 0)
         {
-            if (ModelState.IsValid)
+            var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", "monan");
+            Directory.CreateDirectory(uploadsFolder); // tạo thư mục nếu chưa có
+
+            var uniqueFileName = Guid.NewGuid().ToString() + Path.GetExtension(monAn.UploadedImage.FileName);
+            var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+            using (var fileStream = new FileStream(filePath, FileMode.Create))
             {
-                _context.MonAns.Add(monAn);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                await monAn.UploadedImage.CopyToAsync(fileStream);
             }
-            return View(monAn);
+
+            monAn.HinhAnhUrl = "/images/monan/" + uniqueFileName; // lưu đường dẫn ảnh để hiển thị
         }
+
+        _context.MonAns.Add(monAn);
+        await _context.SaveChangesAsync();
+        return RedirectToAction(nameof(Index));
+    }
+    return View(monAn);
+}
+
 
         // GET: Admin/AdminMenu/Edit
         public async Task<IActionResult> Edit(int? id)
@@ -101,5 +119,7 @@ namespace WeddingRestaurant.Areas.Admin.Controllers
             }
             return RedirectToAction(nameof(Index));
         }
+
+
     }
 }
