@@ -93,6 +93,9 @@
                                     <i class="fas fa-calendar-plus me-1"></i> Đặt bàn
                                 </a>
                             </li>
+                            <li class="nav-item">
+                                <a asp-area="" asp-controller="CustomerBooking" asp-action="MyBookings" class="nav-link">Thông tin đặt bàn</a>
+                            </li>
                         }
                         @* Nếu người dùng là Admin thì hiện thêm menu quản trị *@
                         @if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
@@ -102,6 +105,10 @@
                                    asp-area="Admin" asp-controller="AdminMenu" asp-action="Index">
                                     <i class="fas fa-tools me-1"></i> Quản lý món ăn
                                 </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a asp-area="Admin" asp-controller="AdminDatBan" asp-action="Index" class="nav-link">Quản lý Đặt Bàn</a>
                             </li>
                         }
                     </ul>
