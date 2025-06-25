@@ -1,0 +1,56 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model IEnumerable<WeddingRestaurant.Models.DatBan>
+@{
+    ViewData["Title"] = "Quản lý Đặt Bàn";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-4">
+    <h2 class="mb-4 text-primary">Quản lý Đặt Bàn</h2>
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+    }
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+    }
+    <table class="table table-bordered table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th>Mã</th>
+                <th>Tên Khách</th>
+                <th>SĐT</th>
+                <th>Thời gian nhận</th>
+                <th>Số khách</th>
+                <th>Trạng thái</th>
+                <th>Bàn đã xếp</th>
+                <th>Thao tác</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Id</td>
+                    <td>@item.TenKhachHang</td>
+                    <td>@item.SoDienThoai</td>
+                    <td>@item.ThoiGianNhanBan.ToString("dd/MM/yyyy HH:mm")</td>
+                    <td>@item.SoLuongKhach</td>
+                    <td>@item.TrangThai</td>
+                    <td>@item.BanDaXep</td>
+                    <td>
+                        @if (item.TrangThai != WeddingRestaurant.Models.TrangThaiDatBan.DaXepBan)
+                        {
+                            <a asp-action="AssignTable" asp-route-id="@item.Id" class="btn btn-sm btn-success">Xếp bàn</a>
+                        }
+                        else
+                        {
+                            <span class="text-success">Đã xếp</span>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
