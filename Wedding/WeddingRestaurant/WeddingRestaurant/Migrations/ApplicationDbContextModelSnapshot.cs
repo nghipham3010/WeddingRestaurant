@@ -229,6 +229,35 @@ namespace WeddingRestaurant.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+            modelBuilder.Entity("WeddingRestaurant.Models.BanAn", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("LoaiBan")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MaBan")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TrangThai")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ViTri")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("BanAns");
+                });
+
             modelBuilder.Entity("WeddingRestaurant.Models.DatBan", b =>
                 {
                     b.Property<int>("Id")
@@ -322,62 +351,54 @@ namespace WeddingRestaurant.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("MonAns");
+                });
 
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            GiaTien = 150000m,
-                            HinhAnhUrl = "/images/seed/monan/goi-ngo-sen.jpg",
-                            IsActive = true,
-                            MoTa = "Món gỏi khai vị thanh mát với ngó sen giòn, tôm tươi và thịt ba chỉ luộc.",
-                            TenMonAn = "Gỏi Ngó Sen Tôm Thịt"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            GiaTien = 180000m,
-                            HinhAnhUrl = "/images/seed/monan/sup-hai-san.jpg",
-                            IsActive = true,
-                            MoTa = "Súp nóng hổi với các loại hải sản tươi ngon như tôm, mực, bào ngư, nấm hương.",
-                            TenMonAn = "Súp Hải Sản Bát Bảo"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            GiaTien = 250000m,
-                            HinhAnhUrl = "/images/seed/monan/tom-hap-nuoc-dua.jpg",
-                            IsActive = true,
-                            MoTa = "Tôm sú tươi sống hấp với nước dừa xiêm ngọt thanh, giữ trọn vị ngon tự nhiên.",
-                            TenMonAn = "Tôm Hấp Nước Dừa Tươi"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            GiaTien = 200000m,
-                            HinhAnhUrl = "/images/seed/monan/ca-chien-xu.jpg",
-                            IsActive = true,
-                            MoTa = "Cá diêu hồng chiên giòn rụm, vàng ươm, chấm nước mắm gừng.",
-                            TenMonAn = "Cá Diêu Hồng Chiên Xù"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            GiaTien = 350000m,
-                            HinhAnhUrl = "/images/seed/monan/lau-thai.jpg",
-                            IsActive = true,
-                            MoTa = "Nồi lẩu Thái đậm đà hương vị, chua cay hấp dẫn với hải sản và rau tươi.",
-                            TenMonAn = "Lẩu Thái Chua Cay"
-                        },
-                        new
-                        {
-                            Id = 6,
-                            GiaTien = 120000m,
-                            HinhAnhUrl = "/images/seed/monan/com-chien-hai-san.jpg",
-                            IsActive = true,
-                            MoTa = "Cơm chiên tơi xốp cùng hải sản tươi ngon, trứng, và rau củ.",
-                            TenMonAn = "Cơm Chiên Hải Sản"
-                        });
+            modelBuilder.Entity("WeddingRestaurant.Models.Order", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("NgayDat")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("TongTien")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Orders");
+                });
+
+            modelBuilder.Entity("WeddingRestaurant.Models.OrderDetail", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("GiaTien")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("MonAnId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("OrderId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SoLuong")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MonAnId");
+
+                    b.HasIndex("OrderId");
+
+                    b.ToTable("OrderDetails");
                 });
 
             modelBuilder.Entity("WeddingRestaurant.Models.Sanh", b =>
@@ -409,35 +430,6 @@ namespace WeddingRestaurant.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Sanhs");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            GiaThue = 50000000m,
-                            HinhAnhUrl = "/images/seed/sanh/grand-ballroom.jpg",
-                            MoTa = "Sảnh chính lớn nhất, sang trọng, phù hợp cho các tiệc cưới quy mô lớn.",
-                            SucChuaToiDa = 500,
-                            TenSanh = "Sảnh Grand Ballroom"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            GiaThue = 20000000m,
-                            HinhAnhUrl = "/images/seed/sanh/sanh-ruby.jpg",
-                            MoTa = "Sảnh ấm cúng với thiết kế hiện đại, phù hợp tiệc vừa và nhỏ.",
-                            SucChuaToiDa = 200,
-                            TenSanh = "Sảnh Ruby"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            GiaThue = 10000000m,
-                            HinhAnhUrl = "/images/seed/sanh/sanh-emerald.jpg",
-                            MoTa = "Sảnh nhỏ, riêng tư, thích hợp cho tiệc thân mật hoặc lễ đính hôn.",
-                            SucChuaToiDa = 100,
-                            TenSanh = "Sảnh Emerald"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -500,6 +492,30 @@ namespace WeddingRestaurant.Migrations
                         .IsRequired();
 
                     b.Navigation("ApplicationUser");
+                });
+
+            modelBuilder.Entity("WeddingRestaurant.Models.OrderDetail", b =>
+                {
+                    b.HasOne("WeddingRestaurant.Models.MonAn", "MonAn")
+                        .WithMany()
+                        .HasForeignKey("MonAnId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WeddingRestaurant.Models.Order", "Order")
+                        .WithMany("ChiTietDonHangs")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("MonAn");
+
+                    b.Navigation("Order");
+                });
+
+            modelBuilder.Entity("WeddingRestaurant.Models.Order", b =>
+                {
+                    b.Navigation("ChiTietDonHangs");
                 });
 #pragma warning restore 612, 618
         }

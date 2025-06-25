@@ -21,6 +21,8 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddRazorPages();
 
+builder.Services.AddSession();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -30,6 +32,8 @@ if (!app.Environment.IsDevelopment())
 }
 app.UseRouting();
 
+app.UseStaticFiles();
+
 app.UseAuthentication();
 
 app.UseAuthorization();
@@ -38,10 +42,22 @@ app.MapStaticAssets();
 
 app.MapRazorPages();
 
+app.UseSession();
+
+app.MapControllerRoute(
+    name: "areas",
+    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}")
     .WithStaticAssets();
 
+//app.UseEndpoints(endpoints =>
+//{
+//    endpoints.MapControllerRoute(
+//        name: "areas",
+//        pattern: "{area:exists}/{controller=AdminMenu}/{action=Index}/{id?}");
+//});
 
 app.Run();

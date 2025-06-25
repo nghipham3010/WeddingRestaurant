@@ -1,0 +1,53 @@
+﻿@model List<CartItem>
+@{
+    ViewData["Title"] = "Giỏ hàng của bạn";
+    var total = Model.Sum(i => i.ThanhTien);
+}
+
+<div class="container py-4">
+    <h2 class="mb-4">Giỏ hàng</h2>
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info">Chưa có món nào trong giỏ hàng.</div>
+    }
+    else
+    {
+        <table class="table table-bordered table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th>Tên Món</th>
+                    <th>Giá</th>
+                    <th>Số Lượng</th>
+                    <th>Thành Tiền</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.TenMonAn</td>
+                        <td>@item.GiaTien.ToString("N0")</td>
+                        <td>@item.SoLuong</td>
+                        <td>@item.ThanhTien.ToString("N0")</td>
+                        <td>
+                            <a asp-action="Remove" asp-route-id="@item.MonAnId" class="btn btn-sm btn-danger">Xóa</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <h4 class="text-end text-success">Tổng cộng: @total.ToString("N0") VNĐ</h4>
+
+        <div class="text-end mt-3">
+            <a asp-controller="Menu" asp-action="Index" class="btn btn-outline-primary">
+                <i class="bi bi-arrow-left"></i> Quay về thực đơn
+            </a>
+            <a asp-action="Clear" class="btn btn-outline-danger">Xóa toàn bộ</a>
+            <a asp-action="Checkout" class="btn btn-primary">Thanh toán</a>
+
+        </div>
+    }
+</div>

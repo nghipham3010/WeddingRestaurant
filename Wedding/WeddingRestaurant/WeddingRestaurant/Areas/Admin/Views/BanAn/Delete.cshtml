@@ -1,0 +1,37 @@
+﻿@model WeddingRestaurant.Models.BanAn
+@{
+    ViewData["Title"] = "Xóa bàn";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-4">
+    <div class="card shadow-sm p-4 bg-light rounded">
+        <h2 class="text-danger mb-3">Xác nhận xóa bàn</h2>
+
+        <div class="alert alert-warning">
+            <strong>Bạn có chắc muốn xóa bàn này không?</strong> Thao tác này không thể hoàn tác.
+        </div>
+
+        <dl class="row">
+            <dt class="col-sm-3">Mã bàn:</dt>
+            <dd class="col-sm-9">@Model.MaBan</dd>
+
+            <dt class="col-sm-3">Loại bàn:</dt>
+            <dd class="col-sm-9">@Model.LoaiBan</dd>
+
+            <dt class="col-sm-3">Vị trí:</dt>
+            <dd class="col-sm-9">@Model.ViTri</dd>
+
+            <dt class="col-sm-3">Trạng thái:</dt>
+            <dd class="col-sm-9">@Model.TrangThai</dd>
+        </dl>
+
+        <form asp-action="Delete" method="post">
+            <input type="hidden" asp-for="Id" />
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                <button type="submit" class="btn btn-danger">Xác nhận xóa</button>
+                <a asp-action="Index" class="btn btn-secondary">Hủy</a>
+            </div>
+        </form>
+    </div>
+</div>

@@ -58,5 +58,26 @@ namespace WeddingRestaurant.Controllers
 
             return View(monAn);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Index(string? searchString, int pageNumber = 1)
+        {
+            int pageSize = 6;
+
+            var query = _context.MonAns.AsQueryable();
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                query = query.Where(m => m.TenMonAn.Contains(searchString));
+                ViewData["CurrentFilter"] = searchString;
+            }
+
+            var paginatedList = await PaginatedList<MonAn>.CreateAsync(query.OrderBy(m => m.TenMonAn), pageNumber, pageSize);
+            return View(paginatedList);
+        }
+
+
+
+
     }
 }

@@ -1,0 +1,73 @@
+﻿@model IEnumerable<WeddingRestaurant.Models.BanAn>
+@{
+    ViewData["Title"] = "Danh sách bàn";
+    var currentLoaiBan = ViewData["LoaiBan"]?.ToString();
+    var currentTrangThai = ViewData["TrangThai"]?.ToString();
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-4">
+    <h2 class="text-primary">Danh sách tất cả các bàn</h2>
+
+    <form method="get" class="row g-3 mb-3">
+        <div class="col-md-4">
+            <input type="text" name="loaiBan" value="@currentLoaiBan" class="form-control" placeholder="Tìm theo loại bàn (ví dụ: 2 người)" />
+        </div>
+        <div class="col-md-4">
+            <select name="trangThai" class="form-select">
+                <option value="">-- Tất cả trạng thái --</option>
+                <option value="Còn trống" selected="@(currentTrangThai == "Còn trống" ? "selected" : null)">Còn trống</option>
+                <option value="Đã đặt" selected="@(currentTrangThai == "Đã đặt" ? "selected" : null)">Đã đặt</option>
+                <option value="Đang sử dụng" selected="@(currentTrangThai == "Đang sử dụng" ? "selected" : null)">Đang sử dụng</option>
+            </select>
+
+        </div>
+        <div class="col-md-2">
+            <button type="submit" class="btn btn-primary w-100">Lọc</button>
+        </div>
+        <div class="col-md-2">
+            <a asp-action="Index" class="btn btn-outline-secondary w-100">Xóa bộ lọc</a>
+        </div>
+    </form>
+
+    <table class="table table-bordered table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th>Mã Bàn</th>
+                <th>Loại Bàn</th>
+                <th>Vị Trí</th>
+                <th>Trạng Thái</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (!Model.Any())
+            {
+                <tr>
+                    <td colspan="4" class="text-center text-muted">Không có bàn nào được tìm thấy.</td>
+                </tr>
+            }
+            else
+            {
+                foreach (var ban in Model)
+                {
+                    <tr>
+                        <td>@ban.MaBan</td>
+                        <td>@ban.LoaiBan</td>
+                        <td>@ban.ViTri</td>
+                        <td>
+                            <span class="badge @(ban.TrangThai switch {
+                            "Còn trống" => "bg-success",
+                            "Đã đặt" => "bg-warning text-dark",
+                            "Đang sử dụng" => "bg-danger",
+                            _ => "bg-secondary"
+                        })">
+                                @ban.TrangThai
+                            </span>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
