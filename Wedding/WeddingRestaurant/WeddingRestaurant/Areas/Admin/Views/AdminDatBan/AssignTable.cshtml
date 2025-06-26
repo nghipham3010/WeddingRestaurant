@@ -1,0 +1,99 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model WeddingRestaurant.Models.DatBan
+@{
+    ViewData["Title"] = "Xếp bàn cho khách";
+    var availableTables = ViewBag.AvailableTables as List<WeddingRestaurant.Models.BanAn>;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .card {
+        background: linear-gradient(135deg, #ffffff, #f0f4ff);
+        border: 1px solid #d9e2ef;
+        transition: transform 0.3s ease;
+    }
+
+        .card:hover {
+            transform: translateY(-4px);
+        }
+
+    h2.text-primary {
+        font-size: 1.8rem;
+        font-weight: 600;
+        color: #344955;
+        border-bottom: 2px dashed #ccc;
+        padding-bottom: 10px;
+    }
+
+    label.form-label {
+        color: #2c3e50;
+        font-size: 1rem;
+    }
+
+    .form-select {
+        padding: 10px 14px;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        background-color: #fefefe;
+        transition: border-color 0.3s;
+    }
+
+        .form-select:focus {
+            border-color: #007bff;
+            outline: none;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+        }
+
+    .btn-success {
+        background-color: #28a745;
+        border: none;
+        font-weight: 500;
+    }
+
+        .btn-success:hover {
+            background-color: #218838;
+        }
+
+    .btn-secondary {
+        background-color: #6c757d;
+        border: none;
+    }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+        }
+
+    .container {
+        animation: fadeInUp 0.6s ease-out;
+    }
+</style>
+
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-7">
+            <div class="card shadow-sm p-4 bg-light rounded">
+                <h2 class="text-primary mb-4 text-center">
+                    Xếp bàn cho khách: <span class="fw-bold">@Model.TenKhachHang</span>
+                </h2>
+                <form asp-action="AssignTable" method="post">
+                    <input type="hidden" name="id" value="@Model.Id" />
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Chọn bàn còn trống:</label>
+                        <select name="selectedTableId" class="form-select" required>
+                            <option value="">-- Chọn bàn --</option>
+                            @foreach (var ban in availableTables)
+                            {
+                                <option value="@ban.Id">@ban.MaBan - @ban.LoaiBan - @ban.ViTri</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+                        <button type="submit" class="btn btn-success px-4">Xác nhận xếp bàn</button>
+                        <a asp-action="Index" class="btn btn-secondary">Quay lại</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

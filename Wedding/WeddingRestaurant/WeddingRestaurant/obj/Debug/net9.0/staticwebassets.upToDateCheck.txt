@@ -65,6 +65,7 @@ wwwroot\favicon.ico
 wwwroot\images\monan\0e9eb0c2-b6d8-4b26-9d00-d6e19d66668c.jpg
 wwwroot\images\monan\2209a1ab-8a39-4121-99fd-20b0744b0416.jpg
 wwwroot\images\monan\5c0c8be2-16b1-4139-ad4d-749dac653977.jpg
+wwwroot\images\monan\7bb5eb4e-f056-4749-8920-f8d3fd478ce0.jpg
 wwwroot\images\thiet-ke-nha-hang-viet-nam-27.jpg
 wwwroot\js\site.js
 wwwroot\lib\bootstrap\dist\css\bootstrap.css

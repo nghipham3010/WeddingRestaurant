@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "V8dA6OCMFObi2MYpvkDe8GUEBAh//A6KhC+dV5yfvkE=",
+  "Hash": "LcNLIRlTwK7sapE/MVM0CzowP8SEZXkfuM6IYtQJCyk=",
   "Source": "WeddingRestaurant",
   "BasePath": "_content/WeddingRestaurant",
   "Mode": "Default",
@@ -4131,6 +4131,27 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\monan\\5c0c8be2-16b1-4139-ad4d-749dac653977.jpg"
+    },
+    {
+      "Identity": "D:\\Winform\\WeddingRestaurant\\Wedding\\WeddingRestaurant\\WeddingRestaurant\\wwwroot\\images\\monan\\7bb5eb4e-f056-4749-8920-f8d3fd478ce0.jpg",
+      "SourceId": "WeddingRestaurant",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Winform\\WeddingRestaurant\\Wedding\\WeddingRestaurant\\WeddingRestaurant\\wwwroot\\",
+      "BasePath": "_content/WeddingRestaurant",
+      "RelativePath": "images/monan/7bb5eb4e-f056-4749-8920-f8d3fd478ce0#[.{fingerprint}]?.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "lvmcmk2zt6",
+      "Integrity": "0YTXdYNHQcIwBKxlH5udFdToOMwOluZKIjeQ3FtTn6E=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\monan\\7bb5eb4e-f056-4749-8920-f8d3fd478ce0.jpg"
     },
     {
       "Identity": "D:\\Winform\\WeddingRestaurant\\Wedding\\WeddingRestaurant\\WeddingRestaurant\\wwwroot\\images\\thiet-ke-nha-hang-viet-nam-27.jpg",
@@ -14876,6 +14897,88 @@
         {
           "Name": "label",
           "Value": "images/monan/5c0c8be2-16b1-4139-ad4d-749dac653977.jpg"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-0YTXdYNHQcIwBKxlH5udFdToOMwOluZKIjeQ3FtTn6E="
+        }
+      ]
+    },
+    {
+      "Route": "images/monan/7bb5eb4e-f056-4749-8920-f8d3fd478ce0.jpg",
+      "AssetFile": "D:\\Winform\\WeddingRestaurant\\Wedding\\WeddingRestaurant\\WeddingRestaurant\\wwwroot\\images\\monan\\7bb5eb4e-f056-4749-8920-f8d3fd478ce0.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "12637"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"0YTXdYNHQcIwBKxlH5udFdToOMwOluZKIjeQ3FtTn6E=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 25 Jun 2025 23:32:08 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-0YTXdYNHQcIwBKxlH5udFdToOMwOluZKIjeQ3FtTn6E="
+        }
+      ]
+    },
+    {
+      "Route": "images/monan/7bb5eb4e-f056-4749-8920-f8d3fd478ce0.lvmcmk2zt6.jpg",
+      "AssetFile": "D:\\Winform\\WeddingRestaurant\\Wedding\\WeddingRestaurant\\WeddingRestaurant\\wwwroot\\images\\monan\\7bb5eb4e-f056-4749-8920-f8d3fd478ce0.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "12637"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"0YTXdYNHQcIwBKxlH5udFdToOMwOluZKIjeQ3FtTn6E=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 25 Jun 2025 23:32:08 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "lvmcmk2zt6"
+        },
+        {
+          "Name": "label",
+          "Value": "images/monan/7bb5eb4e-f056-4749-8920-f8d3fd478ce0.jpg"
         },
         {
           "Name": "integrity",

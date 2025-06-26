@@ -3,86 +3,180 @@
     ViewData["Title"] = "Create New Booking";
 }
 
-<h2 class="text-center text-primary mb-4">Book a Table at Our Restaurant</h2>
-<p class="text-center text-muted">Please fill in the details so we can serve you best.</p>
-<hr />
+<style>
+    .booking-background {
+        background-image: url('https://t3.ftcdn.net/jpg/03/24/73/92/360_F_324739203_keeq8udvv0P2h1MLYJ0GLSlTBagoXS48.jpg');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        min-height: 100vh;
+        padding: 60px 15px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        position: relative;
+    }
 
-<div class="row justify-content-center">
-    <div class="col-md-8">
-        @if (TempData["SuccessMessage"] != null)
-        {
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                @TempData["SuccessMessage"]
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
+        .booking-background::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.4);
+            z-index: 0;
         }
-        @if (TempData["ErrorMessage"] != null)
-        {
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                @TempData["ErrorMessage"]
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
+
+        .booking-background > * {
+            position: relative;
+            z-index: 1;
         }
 
-        <form asp-controller="CustomerBooking" asp-action="Create" method="post" id="customerBookingForm">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    form {
+        background-color: rgba(255, 255, 255, 0.95);
+        border: 1px solid #dee2e6;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    }
 
-            <div class="mb-3">
-                <label asp-for="TenKhachHang" class="form-label">Full Name</label>
-                <input asp-for="TenKhachHang" class="form-control" />
-                <span asp-validation-for="TenKhachHang" class="text-danger"></span>
-            </div>
-            <div class="mb-3">
-                <label asp-for="SoDienThoai" class="form-label">Phone Number</label>
-                <input asp-for="SoDienThoai" class="form-control" />
-                <span asp-validation-for="SoDienThoai" class="text-danger"></span>
-            </div>
-            <div class="row">
-                <div class="col-md-6 mb-3">
-                    <label asp-for="ThoiGianNhanBan" class="form-label">Booking Date</label>
-                    <!-- KHÔNG dùng asp-for ở đây để tránh gửi trùng name -->
-                    <input type="text" class="form-control datepicker-input" value="@Model.ThoiGianNhanBan.ToString("dd/MM/yyyy")" data-date-format="dd/mm/yyyy" />
-                    <span asp-validation-for="ThoiGianNhanBan" class="text-danger"></span>
+    h2.text-center {
+        font-size: 1.75rem;
+        font-weight: 600;
+        color: #fff;
+        text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .text-muted {
+        font-size: 1rem;
+        margin-bottom: 20px;
+        color: #f0f0f0;
+        text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    }
+
+    .form-label {
+        font-weight: 500;
+        color: #34495e;
+    }
+
+    .form-control, .form-select, textarea {
+        border-radius: 8px;
+        padding: 10px 14px;
+        border: 1px solid #ccc;
+        transition: border-color 0.3s ease;
+    }
+
+        .form-control:focus, .form-select:focus, textarea:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 6px rgba(0, 123, 255, 0.2);
+            outline: none;
+        }
+
+    .btn-lg {
+        padding: 12px;
+        font-size: 1.05rem;
+        font-weight: 600;
+    }
+
+    .btn-outline-secondary {
+        border-width: 2px;
+    }
+
+        .btn-outline-secondary:hover {
+            background-color: #f1f1f1;
+        }
+
+    .alert {
+        font-size: 0.95rem;
+        padding: 12px 16px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+    }
+
+    .row > .col-md-6, .row > .col-md-8 {
+        margin-bottom: 16px;
+    }
+</style>
+
+<section class="booking-background">
+    <h2 class="text-center text-primary mb-4">Book a Table at Our Restaurant</h2>
+    <p class="text-center text-muted">Please fill in the details so we can serve you best.</p>
+    <hr />
+
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            @if (TempData["SuccessMessage"] != null)
+            {
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    @TempData["SuccessMessage"]
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
-                <div class="col-md-6 mb-3">
-                    <label for="timeInputCustomer" class="form-label">Time</label>
-                    <input type="text" id="timeInputCustomer" class="form-control timepicker-input" value="@Model.ThoiGianNhanBan.ToString("HH:mm")" />
+            }
+            @if (TempData["ErrorMessage"] != null)
+            {
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    @TempData["ErrorMessage"]
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
-            </div>
-            <div class="mb-3">
-                <label asp-for="SoLuongKhach" class="form-label">Number of Guests</label>
-                <input asp-for="SoLuongKhach" type="number" class="form-control" />
-                <span asp-validation-for="SoLuongKhach" class="text-danger"></span>
-            </div>
-            <div class="mb-3">
-                <label asp-for="ThoiGianDuKienHoanTatPhut" class="form-label">Estimated Completion Time (minutes)</label>
-                <input asp-for="ThoiGianDuKienHoanTatPhut" type="number" class="form-control" />
-                <span asp-validation-for="ThoiGianDuKienHoanTatPhut" class="text-danger"></span>
-            </div>
-            <div class="mb-3">
-                <label asp-for="GhiChu" class="form-label">Notes/Special Requests</label>
-                <textarea asp-for="GhiChu" class="form-control" rows="3"></textarea>
-                <span asp-validation-for="GhiChu" class="text-danger"></span>
-            </div>
+            }
 
-            <!-- CHỈ GIỮ LẠI 1 input name="ThoiGianNhanBan" -->
-            <input type="hidden" id="combinedDateTimeCustomer" name="ThoiGianNhanBan" value="@Model.ThoiGianNhanBan.ToString("o")" />
-            <input type="hidden" asp-for="TienCoc" />
-            <input type="hidden" asp-for="PhuongThucDatCoc" />
-            <input type="hidden" asp-for="TrangThai" value="@WeddingRestaurant.Models.TrangThaiDatBan.ChoXacNhan" />
+            <form asp-controller="CustomerBooking" asp-action="Create" method="post" id="customerBookingForm">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-            <div class="d-grid gap-2">
-                <button type="submit" class="btn btn-primary btn-lg">Submit Booking Request</button>
-                <a asp-controller="CustomerBooking" asp-action="MyBookings" class="btn btn-outline-secondary">View My Bookings</a>
-            </div>
-        </form>
+                <div class="mb-3">
+                    <label asp-for="TenKhachHang" class="form-label">Full Name</label>
+                    <input asp-for="TenKhachHang" class="form-control" />
+                    <span asp-validation-for="TenKhachHang" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="SoDienThoai" class="form-label">Phone Number</label>
+                    <input asp-for="SoDienThoai" class="form-control" />
+                    <span asp-validation-for="SoDienThoai" class="text-danger"></span>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="ThoiGianNhanBan" class="form-label">Booking Date</label>
+                        <input type="text" class="form-control datepicker-input" value="@Model.ThoiGianNhanBan.ToString("dd/MM/yyyy")" data-date-format="dd/mm/yyyy" />
+                        <span asp-validation-for="ThoiGianNhanBan" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="timeInputCustomer" class="form-label">Time</label>
+                        <input type="text" id="timeInputCustomer" class="form-control timepicker-input" value="@Model.ThoiGianNhanBan.ToString("HH:mm")" />
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="SoLuongKhach" class="form-label">Number of Guests</label>
+                    <input asp-for="SoLuongKhach" type="number" class="form-control" />
+                    <span asp-validation-for="SoLuongKhach" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="ThoiGianDuKienHoanTatPhut" class="form-label">Estimated Completion Time (minutes)</label>
+                    <input asp-for="ThoiGianDuKienHoanTatPhut" type="number" class="form-control" />
+                    <span asp-validation-for="ThoiGianDuKienHoanTatPhut" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="GhiChu" class="form-label">Notes/Special Requests</label>
+                    <textarea asp-for="GhiChu" class="form-control" rows="3"></textarea>
+                    <span asp-validation-for="GhiChu" class="text-danger"></span>
+                </div>
+
+                <input type="hidden" id="combinedDateTimeCustomer" name="ThoiGianNhanBan" value="@Model.ThoiGianNhanBan.ToString("o")" />
+                <input type="hidden" asp-for="TienCoc" />
+                <input type="hidden" asp-for="PhuongThucDatCoc" />
+                <input type="hidden" asp-for="TrangThai" value="@WeddingRestaurant.Models.TrangThaiDatBan.ChoXacNhan" />
+
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-primary btn-lg">Submit Booking Request</button>
+                    <a asp-controller="CustomerBooking" asp-action="MyBookings" class="btn btn-outline-secondary">View My Bookings</a>
+                </div>
+            </form>
+        </div>
     </div>
-</div>
+</section>
 
 @section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
+    @await Html.PartialAsync("_ValidationScriptsPartial")
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-timepicker/1.13.18/jquery.timepicker.min.css" />
@@ -90,41 +184,37 @@
 
     <script>
         $(document).ready(function () {
-            // Datepicker initialization
             $('#customerBookingForm .datepicker-input').datepicker({
                 format: 'dd/mm/yyyy',
                 autoclose: true,
                 todayHighlight: true,
-                startDate: '+1d', // Start date from tomorrow
+                startDate: '+1d',
                 language: 'en'
             }).on('changeDate', function (e) {
                 updateCombinedDateTimeCustomer();
             });
 
-            // Timepicker initialization
             $('#customerBookingForm .timepicker-input').timepicker({
                 'timeFormat': 'H:i',
                 'step': 15,
-                'minTime': '08:00', // Example: 8 AM
-                'maxTime': '22:00'  // Example: 10 PM
+                'minTime': '08:00',
+                'maxTime': '22:00'
             }).on('changeTime', function (e) {
                 updateCombinedDateTimeCustomer();
             });
 
-            // Function to combine date and time into a single hidden field
             function updateCombinedDateTimeCustomer() {
                 var datePart = $('#customerBookingForm .datepicker-input').datepicker('getDate');
-                var timePart = $('#customerBookingForm .timepicker-input').val(); // HH:mm
+                var timePart = $('#customerBookingForm .timepicker-input').val();
 
                 if (datePart && timePart) {
                     var [hours, minutes] = timePart.split(':');
                     datePart.setHours(parseInt(hours));
                     datePart.setMinutes(parseInt(minutes));
-                    $('#combinedDateTimeCustomer').val(datePart.toISOString()); // ISO string for DateTime binding
+                    $('#combinedDateTimeCustomer').val(datePart.toISOString());
                 }
             }
 
-            // Initial update on page load (important if model has default date/time)
             updateCombinedDateTimeCustomer();
         });
     </script>

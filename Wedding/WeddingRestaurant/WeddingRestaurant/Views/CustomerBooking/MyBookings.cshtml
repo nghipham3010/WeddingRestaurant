@@ -3,6 +3,68 @@
     ViewData["Title"] = "My Bookings";
 }
 
+<style>
+    .table {
+        border-collapse: separate;
+        border-spacing: 0;
+        border-radius: 8px;
+        overflow: hidden;
+        font-size: 0.95rem;
+        background-color: #ffffff;
+    }
+
+        .table th, .table td {
+            vertical-align: middle;
+            padding: 12px 16px;
+        }
+
+        .table thead.table-dark {
+            background: linear-gradient(90deg, #2c3e50, #34495e);
+            color: #ffffff;
+        }
+
+    .table-striped tbody tr:nth-of-type(odd) {
+        background-color: #f8f9fa;
+    }
+
+    .table-striped tbody tr:nth-of-type(even) {
+        background-color: #ffffff;
+    }
+
+    .table-bordered td, .table-bordered th {
+        border: 1px solid #dee2e6;
+    }
+
+    .btn-sm.btn-success {
+        background-color: #28a745;
+        border: none;
+        padding: 6px 12px;
+        font-weight: 500;
+        transition: background-color 0.3s ease;
+    }
+
+        .btn-sm.btn-success:hover {
+            background-color: #218838;
+        }
+
+    .text-success {
+        font-weight: 500;
+        color: #1e7e34 !important;
+    }
+
+    .alert {
+        border-radius: 6px;
+        padding: 12px 16px;
+        margin-bottom: 1rem;
+        font-size: 0.95rem;
+    }
+
+    h2.text-primary {
+        color: #2c3e50;
+        font-weight: 600;
+    }
+</style>
+
 <h2 class="text-center text-primary mb-4">My Wedding Restaurant Bookings</h2>
 <p class="text-center text-muted">Here's a list of all your current and past bookings.</p>
 <hr />
