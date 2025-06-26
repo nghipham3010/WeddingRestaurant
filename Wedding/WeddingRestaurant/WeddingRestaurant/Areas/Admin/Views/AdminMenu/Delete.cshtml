@@ -1,0 +1,79 @@
+﻿@model WeddingRestaurant.Models.MonAn
+@{
+    ViewData["Title"] = "Xóa món ăn";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    body {
+        background: linear-gradient(to right, #fdfbfb, #ebedee);
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .delete-container {
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+        padding: 2rem;
+        max-width: 650px;
+        margin: 50px auto;
+    }
+
+    .delete-title {
+        color: #dc3545;
+        font-weight: 700;
+        margin-bottom: 20px;
+    }
+
+    .delete-info dt {
+        font-weight: 600;
+    }
+
+    .btn-danger {
+        background-color: #dc3545;
+        border: none;
+    }
+
+        .btn-danger:hover {
+            background-color: #c82333;
+        }
+
+    .btn-secondary:hover {
+        background-color: #4b5563;
+    }
+
+    .delete-buttons {
+        display: flex;
+        gap: 1rem;
+        justify-content: flex-end;
+        margin-top: 1.5rem;
+    }
+</style>
+
+<div class="delete-container">
+    <h2 class="delete-title">⚠️ Bạn có chắc muốn xóa món ăn này?</h2>
+    <hr />
+
+    <dl class="row delete-info">
+        <dt class="col-sm-4">🍽️ Tên món ăn:</dt>
+        <dd class="col-sm-8">@Model.TenMonAn</dd>
+
+        <dt class="col-sm-4">💰 Giá tiền:</dt>
+        <dd class="col-sm-8">@Model.GiaTien.ToString("N0") đ</dd>
+
+        <dt class="col-sm-4">📝 Mô tả:</dt>
+        <dd class="col-sm-8">@Model.MoTa</dd>
+    </dl>
+
+    <form asp-action="Delete" method="post">
+        @Html.AntiForgeryToken()
+        <input type="hidden" asp-for="Id" />
+
+        <div class="delete-buttons">
+            <button type="submit" class="btn btn-danger px-4">Xác nhận xóa</button>
+            <a asp-action="Index" class="btn btn-secondary">Hủy</a>
+        </div>
+    </form>
+</div>
+
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers

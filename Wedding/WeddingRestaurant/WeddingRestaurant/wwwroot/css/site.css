@@ -1,0 +1,430 @@
+﻿/* =========================================================
+   Tổng quan & Reset (Đảm bảo các giá trị mặc định đồng nhất)
+   ========================================================= */
+body {
+    font-family: 'Open Sans', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; /* Đảm bảo padding và border được tính vào width/height */
+    color: #333; /* Màu chữ mặc định */
+    line-height: 1.6; /* Chiều cao dòng dễ đọc */
+    background-color: #f9f9f9; /* Nền trang tổng thể */
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Playfair Display', serif; /* Font chữ sang trọng cho tiêu đề */
+    color: #4A2B1D; /* Nâu đất ấm áp cho tiêu đề */
+    margin-top: 0; /* Loại bỏ margin-top mặc định */
+    margin-bottom: 0.5em; /* Khoảng cách dưới tiêu đề */
+    line-height: 1.2;
+}
+
+p {
+    margin-bottom: 1em; /* Khoảng cách dưới đoạn văn */
+}
+
+a {
+    text-decoration: none; /* Bỏ gạch chân mặc định của liên kết */
+    color: #FF5722; /* Cam tươi cho liên kết */
+    transition: color 0.3s ease; /* Hiệu ứng chuyển màu mượt mà */
+}
+
+    a:hover {
+        color: #E64A19; /* Cam đậm hơn khi di chuột */
+    }
+
+/* Các nút chung (btn) của Bootstrap, được tùy chỉnh */
+.btn {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 600; /* Đậm hơn một chút */
+    text-transform: uppercase; /* Chữ hoa */
+    letter-spacing: 0.5px; /* Khoảng cách chữ nhẹ */
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+/* Nút chính (ví dụ: các nút Đăng nhập/Đăng ký/Đặt bàn) */
+.btn-primary {
+    background: #FF5722 !important; /* Dùng !important để ghi đè Bootstrap */
+    border-color: #FF5722 !important;
+    color: #fff !important; /* Đảm bảo màu chữ trắng */
+    padding: 12px 25px;
+    border-radius: 8px; /* Bo tròn góc */
+    font-size: 1.1em;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2); /* Đổ bóng nhẹ */
+}
+
+    .btn-primary:hover {
+        background: #E64A19 !important;
+        border-color: #E64A19 !important;
+        transform: translateY(-2px); /* Hiệu ứng nhấc nhẹ khi hover */
+        box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+    }
+
+
+/* =========================================================
+   Hero Carousel Section (CSS-Only) - Banner chính trượt ảnh
+   ========================================================= */
+.hero-carousel-css-only {
+    position: relative;
+    height: 70vh; /* Chiều cao của banner (ví dụ 70% chiều cao viewport) */
+    width: 100%;
+    overflow: hidden; /* Quan trọng: ẩn các phần không hiển thị của banner */
+}
+
+.carousel-inner-css-only {
+    display: flex; /* Xếp các banner item thành một hàng ngang */
+    height: 100%;
+    /* Tổng chiều rộng của dải banner. Có 3 banner gốc + 3 banner lặp = 6 banner.
+       Mỗi banner chiếm 100% chiều rộng của .hero-carousel-css-only.
+       Vậy tổng chiều rộng là 600%.
+    */
+    width: 600%;
+    /* Áp dụng animation trượt ngang */
+    animation: scrollBanner 30s linear infinite; /* 30s = thời gian một vòng lặp */
+}
+
+/* Định nghĩa keyframes cho animation trượt ngang */
+@keyframes scrollBanner {
+    0% {
+        transform: translateX(0%); /* Bắt đầu từ vị trí ban đầu */
+    }
+
+    100% {
+        /* Dịch chuyển ngang một nửa tổng chiều rộng của .carousel-inner-css-only.
+           Khi dải banner trượt đi 50% tổng chiều rộng (tương đương 3 banner gốc),
+           các banner lặp sẽ bắt đầu hiển thị, tạo hiệu ứng liên tục.
+        */
+        transform: translateX(-50%);
+    }
+}
+
+/* Dừng animation khi di chuột vào banner */
+.carousel-inner-css-only:hover {
+    animation-play-state: paused;
+}
+
+.carousel-item-css-only {
+    flex-shrink: 0; /* Ngăn các banner item bị co lại */
+    width: calc(100% / 6); /* Mỗi banner item chiếm 1/6 tổng chiều rộng */
+    height: 100%;
+    background-size: cover; /* Đảm bảo ảnh nền phủ kín */
+    background-position: center center;
+    position: relative;
+    display: flex; /* Để căn giữa nội dung trong banner item */
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: #fff; /* Màu chữ mặc định là trắng */
+}
+
+.carousel-overlay-css-only {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4); /* Lớp phủ đen mờ 40% */
+    z-index: 1; /* Đảm bảo lớp phủ nằm dưới nội dung */
+}
+
+.carousel-content-css-only {
+    position: relative;
+    z-index: 2; /* Nội dung nằm trên lớp phủ */
+    padding: 20px;
+    max-width: 900px; /* Giới hạn chiều rộng của nội dung text */
+}
+
+    .carousel-content-css-only h1 {
+        font-family: 'Playfair Display', serif;
+        font-size: 3.8em;
+        margin-bottom: 15px;
+        line-height: 1.2;
+        color: #fff;
+        text-shadow: 2px 2px 6px rgba(0,0,0,0.7); /* Đổ bóng cho chữ để nổi bật */
+    }
+
+    .carousel-content-css-only p {
+        font-family: 'Open Sans', sans-serif;
+        font-size: 1.3em;
+        margin-bottom: 40px;
+        text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+    }
+
+.btn-cta-css-only {
+    display: inline-block;
+    background: #FF5722; /* Màu cam nổi bật cho nút */
+    color: #fff;
+    padding: 18px 40px;
+    text-decoration: none;
+    border-radius: 8px;
+    font-size: 1.2em;
+    font-weight: bold;
+    transition: background 0.3s ease, transform 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+    .btn-cta-css-only:hover {
+        background: #E64A19; /* Tối màu hơn khi di chuột */
+        transform: translateY(-3px); /* Hiệu ứng nhấc nhẹ */
+    }
+
+/* Responsive Adjustments cho Carousel (CSS-Only) */
+@media (max-width: 768px) {
+    .hero-carousel-css-only {
+        height: 50vh; /* Giảm chiều cao banner trên thiết bị nhỏ hơn */
+    }
+
+    .carousel-content-css-only h1 {
+        font-size: 2.5em; /* Giảm kích thước tiêu đề */
+    }
+
+    .carousel-content-css-only p {
+        font-size: 1em; /* Giảm kích thước mô tả */
+    }
+
+    .btn-cta-css-only {
+        padding: 12px 25px;
+        font-size: 1em;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-carousel-css-only {
+        height: 40vh;
+    }
+
+    .carousel-content-css-only h1 {
+        font-size: 1.8em;
+    }
+
+    .carousel-content-css-only p {
+        font-size: 0.9em;
+    }
+
+    .btn-cta-css-only {
+        padding: 10px 20px;
+        font-size: 0.9em;
+    }
+}
+
+
+/* =========================================================
+   Authentication Sections (Register/Login)
+   ========================================================= */
+/* Container tổng thể cho trang đăng ký/đăng nhập */
+.login-container {
+    padding: 80px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 100px); /* Đảm bảo đủ chiều cao, trừ đi chiều cao của header/footer nếu có */
+    background-color: #f0f0f0; /* Nền xám nhạt cho trang */
+}
+
+.login-card { /* Hộp chứa form */
+    background: #fff;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 600px; /* Giới hạn chiều rộng của card */
+    text-align: center; /* Căn giữa các phần tử bên trong */
+    margin: 0 20px; /* Thêm margin ngang để có khoảng trống trên mobile */
+    box-sizing: border-box;
+}
+
+    .login-card h1 { /* Tiêu đề chính của trang (Register/Log in) */
+        font-size: 2.5em;
+        margin-bottom: 20px;
+        color: #4A2B1D;
+        font-family: 'Playfair Display', serif;
+    }
+
+    .login-card h2 { /* Tiêu đề phụ (Create a new account/Use a local account) */
+        font-size: 1.8em;
+        margin-bottom: 20px;
+        color: #4A2B1D;
+        font-family: 'Playfair Display', serif;
+        position: relative;
+        padding-bottom: 10px;
+    }
+
+        .login-card h2::after { /* Đường gạch dưới tiêu đề h2 */
+            content: '';
+            position: absolute;
+            left: 50%;
+            bottom: 0;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 3px;
+            background-color: #FF5722;
+            border-radius: 2px;
+        }
+
+    .login-card hr { /* Đường gạch ngang mặc định của Bootstrap */
+        border-top: 1px solid #eee;
+        margin-bottom: 30px;
+    }
+
+/* Các form elements của Bootstrap được tùy chỉnh */
+.form-floating {
+    margin-bottom: 20px !important; /* Đảm bảo khoảng cách giữa các input */
+}
+
+    .form-floating > label {
+        padding: 1rem 0.75rem;
+        color: #777;
+        font-weight: normal;
+        transition: all 0.2s ease-in-out;
+    }
+
+    /* Hiệu ứng label nổi khi input có giá trị hoặc được focus */
+    .form-floating > .form-control:focus ~ label,
+    .form-floating > .form-control:not(:placeholder-shown) ~ label,
+    .form-floating > .form-select:focus ~ label, /* Thêm cho select box */
+    .form-floating > .form-select:not([value=""]) ~ label { /* Thêm cho select box khi có giá trị */
+        transform: scale(0.85) translateY(-0.5rem) translateX(0.15rem);
+        background-color: #fff;
+        padding: 0 5px;
+        color: #FF5722;
+    }
+
+.form-control,
+.form-select { /* Áp dụng cho cả input và select */
+    padding: 1rem 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1em;
+    font-family: 'Open Sans', sans-serif;
+    box-shadow: none;
+    transition: border-color 0.2s ease;
+}
+
+    .form-control:focus,
+    .form-select:focus {
+        border-color: #FF5722;
+        outline: none;
+        box-shadow: 0 0 5px rgba(255, 87, 34, 0.3);
+    }
+
+.text-danger { /* Màu đỏ cho các thông báo lỗi */
+    color: #dc3545;
+    font-size: 0.85em;
+    margin-top: 5px;
+    text-align: left;
+}
+
+/* Checkbox cho "Remember Me" (trên trang Login) */
+.form-group-auth.remember-me {
+    text-align: left; /* Căn trái */
+    margin-bottom: 15px;
+}
+
+    .form-group-auth.remember-me .form-check-input {
+        margin-right: 5px; /* Khoảng cách giữa checkbox và label */
+    }
+
+    .form-group-auth.remember-me label {
+        color: #555;
+        font-size: 0.95em;
+        cursor: pointer;
+    }
+
+
+/* Footer text (link Forgot Password, Register new user, etc.) */
+.auth-footer-text {
+    margin-top: 25px;
+    text-align: center; /* Căn giữa */
+}
+
+    .auth-footer-text p {
+        margin-bottom: 10px;
+        font-size: 0.95em;
+    }
+
+
+/* Section "Use another service to register/log in" */
+.login-card .col-md-6 {
+    padding: 0 15px; /* Điều chỉnh padding để có khoảng cách giữa 2 cột */
+}
+
+.login-card .row {
+    margin: 0 -15px; /* Bù lại padding của cột nếu cần */
+}
+
+.login-card section h3 { /* Tiêu đề "Use another service..." */
+    font-size: 1.5em;
+    margin-top: 30px;
+    margin-bottom: 20px;
+    color: #4A2B1D;
+    font-family: 'Playfair Display', serif;
+}
+
+/* CSS cho các nút đăng nhập bên ngoài (Google, Facebook, v.v.) */
+.login-card .form-horizontal .btn { /* Cụ thể hơn để không ảnh hưởng btn-primary chung */
+    background-color: #007bff; /* Màu xanh mặc định của Bootstrap */
+    border-color: #007bff;
+    margin-bottom: 10px; /* Khoảng cách giữa các nút */
+    padding: 10px 20px;
+    font-size: 1em;
+    display: block; /* Mỗi nút một hàng */
+    width: 100%; /* Chiếm toàn bộ chiều rộng của cột */
+    color: #fff; /* Màu chữ trắng */
+}
+
+    .login-card .form-horizontal .btn:hover {
+        background-color: #0056b3;
+        border-color: #0056b3;
+        transform: none; /* Bỏ hiệu ứng nhấc lên của btn-primary nếu có */
+        box-shadow: none;
+    }
+
+
+/* =========================================================
+   Responsive Adjustments (Cho các màn hình nhỏ hơn)
+   ========================================================= */
+
+/* Điều chỉnh chung cho phần đăng ký/đăng nhập */
+@media (min-width: 768px) {
+    .login-card .row {
+        display: flex; /* Trên desktop, 2 cột sẽ flexbox cạnh nhau */
+    }
+
+        .login-card .row > div {
+            flex: 1; /* Chia đều không gian giữa 2 cột */
+            padding: 0 15px; /* Khoảng cách giữa 2 cột */
+        }
+
+    .login-card .d-none.d-md-block {
+        display: block !important; /* Đảm bảo hiển thị trên desktop */
+    }
+}
+
+@media (max-width: 767.98px) {
+    .login-card {
+        padding: 30px 20px; /* Giảm padding trên mobile */
+    }
+
+        .login-card h1 {
+            font-size: 2em; /* Giảm kích thước tiêu đề chính */
+        }
+
+        .login-card h2 {
+            font-size: 1.5em; /* Giảm kích thước tiêu đề phụ */
+        }
+
+    .form-control,
+    .form-select {
+        padding: 10px 8px; /* Giảm padding cho input/select */
+    }
+
+    .btn-primary {
+        padding: 10px 20px;
+        font-size: 1em;
+    }
+    /* Ẩn phần external login trên mobile */
+    .login-card .col-12.d-none.d-md-block { /* Sửa lại selector cho chính xác */
+        display: none !important;
+    }
+}

@@ -1,0 +1,55 @@
+﻿@model WeddingRestaurant.Models.MonAn
+
+@{
+    ViewData["Title"] = "Chi tiết món ăn: " + Model.TenMonAn;
+}
+
+<div class="container py-4">
+    <h1 class="text-center mb-4">Chi Tiết Món Ăn</h1>
+
+    <div class="card shadow mb-4">
+        <div class="row g-0">
+            <div class="col-md-5">
+                @if (!string.IsNullOrEmpty(Model.HinhAnhUrl))
+                {
+                    <img src="@Model.HinhAnhUrl" class="img-fluid rounded-start" alt="@Model.TenMonAn" style="height: 100%; object-fit: cover;">
+                }
+                else
+                {
+                    <img src="/images/placeholder-dish.png" class="img-fluid rounded-start" alt="Món ăn mặc định" style="height: 100%; object-fit: cover;">
+                }
+            </div>
+            <div class="col-md-7">
+                <div class="card-body">
+                    <h2 class="card-title text-primary">@Model.TenMonAn</h2>
+                    <h3 class="card-subtitle mb-3 text-success">@Model.GiaTien.ToString("N0") VNĐ</h3>
+                    <p class="card-text">
+                        <strong>Mô tả:</strong>
+                        @if (!string.IsNullOrEmpty(Model.MoTa))
+                        {
+                            @Model.MoTa
+                        }
+                        else
+                        {
+                            <span>(Không có mô tả chi tiết)</span>
+                        }
+                    </p>
+                    <p class="card-text">
+                        <strong>Trạng thái:</strong>
+                        @if (Model.IsActive)
+                        {
+                            <span class="badge bg-success">Đang kinh doanh</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-secondary">Ngừng kinh doanh</span>
+                        }
+                    </p>
+                    <div class="mt-4">
+                        <a asp-action="Index" class="btn btn-secondary">Quay lại Thực Đơn</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

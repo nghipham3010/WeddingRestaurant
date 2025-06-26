@@ -1,0 +1,40 @@
+﻿@model List<CartItem>
+@{
+    ViewData["Title"] = "Xác nhận thanh toán";
+    var total = ViewBag.Total;
+}
+
+<div class="container py-4">
+    <h2>Xác nhận đơn hàng</h2>
+
+    <table class="table table-bordered mt-3">
+        <thead class="table-light">
+            <tr>
+                <th>Món ăn</th>
+                <th>Giá</th>
+                <th>Số lượng</th>
+                <th>Thành tiền</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.TenMonAn</td>
+                    <td>@item.GiaTien.ToString("N0")</td>
+                    <td>@item.SoLuong</td>
+                    <td>@item.ThanhTien.ToString("N0")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <h4 class="text-end text-success">Tổng cộng: @total.ToString("N0") VNĐ</h4>
+
+    <form asp-action="ConfirmCheckout" method="post">
+        <div class="text-end mt-4">
+            <a asp-action="Index" class="btn btn-outline-secondary me-2">Quay lại giỏ hàng</a>
+            <button type="submit" class="btn btn-success">Xác nhận & Thanh toán</button>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,96 @@
+﻿@model WeddingRestaurant.Models.BanAn
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    ViewData["Title"] = "Thêm Bàn Mới";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    body {
+        background: linear-gradient(to right, #e0f7fa, #ffffff);
+    }
+
+    .form-container {
+        background: white;
+        border-radius: 16px;
+        padding: 30px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
+
+        .form-container h2 {
+            font-weight: 600;
+            color: #00796b;
+            margin-bottom: 20px;
+        }
+
+    .btn-success {
+        background: #00796b;
+        border: none;
+    }
+
+        .btn-success:hover {
+            background: #00695c;
+        }
+
+    .btn-secondary {
+        border-radius: 8px;
+    }
+
+    .form-label {
+        font-weight: 500;
+    }
+</style>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 form-container">
+            <h2 class="text-center">🪑 Thêm bàn mới</h2>
+            <form asp-area="Admin" asp-controller="BanAn" asp-action="Create" method="post">
+                @Html.AntiForgeryToken()
+                <div class="mb-3">
+                    <label asp-for="MaBan" class="form-label">Mã Bàn</label>
+                    <input asp-for="MaBan" class="form-control" placeholder="VD: B001" />
+                    <span asp-validation-for="MaBan" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="LoaiBan" class="form-label">Loại Bàn</label>
+                    <select asp-for="LoaiBan" class="form-select">
+                        <option value="">-- Chọn loại bàn --</option>
+                        <option value="Bàn 2 người">Bàn 2 người</option>
+                        <option value="Bàn 4 người">Bàn 4 người</option>
+                        <option value="Bàn 10 người">Bàn 10 người</option>
+                    </select>
+                    <span asp-validation-for="LoaiBan" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="ViTri" class="form-label">Vị Trí</label>
+                    <input asp-for="ViTri" class="form-control" placeholder="VD: Sảnh A, Sân vườn..." />
+                    <span asp-validation-for="ViTri" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="TrangThai" class="form-label">Trạng Thái</label>
+                    <select asp-for="TrangThai" class="form-select">
+                        <option value="Còn trống">Còn trống</option>
+                        <option value="Đã đặt">Đã đặt</option>
+                        <option value="Đang sử dụng">Đang sử dụng</option>
+                    </select>
+                    <span asp-validation-for="TrangThai" class="text-danger"></span>
+                </div>
+
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-success btn-lg">💾 Lưu bàn</button>
+                    <a asp-controller="BanAnController" asp-action="Index" class="btn btn-outline-secondary">⬅️ Quay lại danh sách</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

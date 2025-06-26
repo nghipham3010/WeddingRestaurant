@@ -1,0 +1,62 @@
+﻿@model WeddingRestaurant.Models.BanAn
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    ViewData["Title"] = "Chỉnh sửa bàn";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-4">
+    <div class="card shadow-sm p-4 bg-light rounded">
+        <h2 class="text-primary mb-4">Chỉnh sửa thông tin bàn</h2>
+
+        <form asp-action="Edit" method="post">
+            <input type="hidden" asp-for="Id" />
+
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+            <div class="mb-3">
+                <label asp-for="MaBan" class="form-label"></label>
+                <input asp-for="MaBan" class="form-control" />
+                <span asp-validation-for="MaBan" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="LoaiBan" class="form-label"></label>
+                <select asp-for="LoaiBan" class="form-select">
+                    <option value="">-- Chọn loại bàn --</option>
+                    <option value="Bàn 2 người">Bàn 2 người</option>
+                    <option value="Bàn 4 người">Bàn 4 người</option>
+                    <option value="Bàn 10 người">Bàn 10 người</option>
+                </select>
+                <span asp-validation-for="LoaiBan" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="ViTri" class="form-label"></label>
+                <input asp-for="ViTri" class="form-control" />
+                <span asp-validation-for="ViTri" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="TrangThai" class="form-label"></label>
+                <select asp-for="TrangThai" class="form-select">
+                    <option value="Còn trống">Còn trống</option>
+                    <option value="Đã đặt">Đã đặt</option>
+                    <option value="Đang sử dụng">Đang sử dụng</option>
+                </select>
+                <span asp-validation-for="TrangThai" class="text-danger"></span>
+            </div>
+
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                <button type="submit" class="btn btn-primary">Cập nhật</button>
+                <a asp-action="Index" class="btn btn-secondary">Quay lại</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
